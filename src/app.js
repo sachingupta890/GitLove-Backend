@@ -1,10 +1,12 @@
 import express from "express";
-import morgan from "./config/morgan.js"
 import compression from "compression"
 import cors from "cors"
 import helmet from "helmet"
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser"
+import morgan from "./config/morgan.js"
+import errorHandler from "./middlewares/errorhandler.js";
+import routes from "./routes/index.js";
 const app = express();
 
 
@@ -23,7 +25,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
 app.use(cookieParser());
+
+//routing 
+app.use("/api/v1",routes)
 app.use(express.static("public"));
+
+app.use(errorHandler);
 
 
 
